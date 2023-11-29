@@ -8,7 +8,7 @@
 <?php include_once("header.php")    ?>
 
 		<!-- End Header/Navigation -->
-
+<!-- im doing changses -->
 		<!-- Start Hero Section -->
 			<div class="hero">
 				<div class="container">
