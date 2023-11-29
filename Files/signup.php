@@ -1,51 +1,44 @@
 <?php
 require_once("db.php");
-session_start();
-
 
 $errors = array();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fname = trim($_POST["fname"]);
+    if (empty($fname)) {
+        $errors[] = "First name is required";
+    }
+    $lname = trim($_POST["lname"]);
+    if (empty($lname)) {
+        $errors[] = "Last name is required";
+    }
     $email = trim($_POST["email"]);
     if (empty($email)) {
         $errors[] = "Email address is required";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email address";
     }
-
-    // Validate Password
     $password = trim($_POST["password"]);
     if (empty($password)) {
         $errors[] = "Password is required";
+    } elseif (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters long";
     }
-
-    // If there are no validation errors, proceed with database check
     if (empty($errors)) {
-        // Query to check if the user with the provided email and password exists
-        $sql = "SELECT * FROM user WHERE email = '$email'";
-        $result = mysqli_query($con, $sql);
-
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-            if ($row && password_verify($password, $row['password'])) {
-                $_SESSION['email'] = $row['email'];
-
-                echo '<script>alert("Login successful!");</script>';
-                echo '<script>window.location.href = "index.php";</script>';
-            } else {
-                $errors[] = "Invalid email or password";
-            }
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO user (fname, lname, email, password) VALUES ('$fname', '$lname', '$email', '$hashedPassword')";
+        if (mysqli_query($con, $sql)) {
+            echo '<script>alert("Signup successful!");</script>';
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($con);
+            echo '<script>alert("Error: ' . $sql . '\n' . mysqli_error($con) . '");</script>';
         }
-    }
-    if (!empty($errors)) {
+    } else {
         foreach ($errors as $error) {
             echo '<script>alert("' . $error . '");</script>';
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,16 +49,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="../css/tiny-slider.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Login</title>
+    <title>Document</title>
 </head>
 
 <style>
+    .name {
+        text-align: left;
+        position: relative;
+        left: -38%;
+    }
+
     .email {
         position: relative;
         left: -43%;
     }
 
     .pass {
+
         position: relative;
         left: -45%;
     }
@@ -83,52 +83,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         background-color: #3b5d50;
     }
 
-    .login a {
+    .signup a {
         text-decoration: none;
         color: #3b5d50;
-    }
 
-    .login a:hover {
+    }
+    .signup a:hover {
         cursor: pointer;
+
     }
 </style>
 
 <body>
     <!-- Section: Design Block -->
-    <section class="text-center mt-5">
+    <section class="text-center mt-3">
         <div class="card mx-4 mx-md-5 shadow-5-strong" style="
         background: hsla(0, 0%, 100%, 0.8);
         backdrop-filter: blur(30px);
         ">
             <div class="card-body py-5 px-md-5">
+
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="fw-bold mb-3">Login</h2>
-                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="login">
+                        <h2 class="fw-bold mb-3">Sign up now</h2>
+                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                            <!-- 2 column grid layout with text inputs for the first and last names -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <label class="form-label name" for="form3Example1">First name</label>
+                                        <input type="text" id="form3Example1" class="form-control" name="fname" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <label class="form-label name" for="form3Example2">Last name</label>
+                                        <input type="text" id="form3Example2" class="form-control" name="lname" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <label class="form-label email" for="form3Example3">Email address</label>
                                 <input type="email" id="form3Example3" class="form-control" name="email" required />
                             </div>
+
+                            <!-- Password input -->
                             <div class="form-outline mb-4">
                                 <label class="form-label pass" for="form3Example4">Password</label>
                                 <input type="password" id="form3Example4" class="form-control" name="password" required />
                             </div>
 
-                            <!-- Submit button for login -->
-                            <div class="d-flex justify-content-between align-items-center login">
+                            <!-- Submit button -->
+                            <div class="d-flex justify-content-between align-items-center signup">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Login
+                                    Sign up
                                 </button>
-                                <a class="mt-2 fw-bold" href="signup.php">Don't Have An Account? Create One</a>
+                                <a class="mt-2 fw-bold" href="login.php">Already Have An Account?</a>
                             </div>
-                        </form>
 
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Section: Design Block -->
+
 </body>
 
 </html>
