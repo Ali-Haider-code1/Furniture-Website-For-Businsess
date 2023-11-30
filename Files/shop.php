@@ -7,7 +7,9 @@
 */ -->
 
 
-<?php include_once("header.php")    ?>
+<?php include_once("header.php");
+session_start();
+?>
 <!-- Start Hero Section -->
 <div class="hero">
 	<div class="container">
@@ -33,7 +35,7 @@
 
 			<!-- Start Column 1 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="cart.php" onclick="addToCart('Nordic Chair', 50.00)">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
 					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Nordic Chair</h3>
 					<strong class="product-price">$50.00</strong>
@@ -47,7 +49,8 @@
 
 			<!-- Start Column 2 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Nordic Chair', 50.00)">					<img src="../images/product-1.png" class="img-fluid product-thumbnail">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
+					<img src="../images/product-1.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Nordic Chair</h3>
 					<strong class="product-price">$50.00</strong>
 
@@ -60,7 +63,8 @@
 
 			<!-- Start Column 3 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Kruzo Aero Chair', 78.00)">					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Kruzo Aero Chair', 78.00)">
+					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Kruzo Aero Chair</h3>
 					<strong class="product-price">$78.00</strong>
 
@@ -73,8 +77,7 @@
 
 			<!-- Start Column 4 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Ergonomic Chair', 43.00)">		
-						<img src="../images/product-1.png" class="img-fluid product-thumbnail">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Ergonomic Chair', 43.00)">
 					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Ergonomic Chair</h3>
 					<strong class="product-price">$43.00</strong>
@@ -89,7 +92,7 @@
 
 			<!-- Start Column 1 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Nordic Chair', 50.00)">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
 					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Nordic Chair</h3>
 					<strong class="product-price">$50.00</strong>
@@ -103,7 +106,7 @@
 
 			<!-- Start Column 2 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="cart.php">
+				<a class="product-item" href="javascript:void(0);">
 					<img src="../images/product-1.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Nordic Chair</h3>
 					<strong class="product-price">$50.00</strong>
@@ -117,7 +120,7 @@
 
 			<!-- Start Column 3 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Kruzo Aero Chair', 78.00)">					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Kruzo Aero Chair', 78.00)">
 					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Kruzo Aero Chair</h3>
 					<strong class="product-price">$78.00</strong>
@@ -131,7 +134,7 @@
 
 			<!-- Start Column 4 -->
 			<div class="col-12 col-md-4 col-lg-3 mb-5">
-			<a class="product-item" href="cart.php" onclick="addToCart('Ergonomic Chair', 43.00)">					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
+				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Ergonomic Chair', 43.00)">
 					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
 					<h3 class="product-title">Ergonomic Chair</h3>
 					<strong class="product-price">$43.00</strong>
@@ -263,36 +266,32 @@
 
 <script>
 	function addToCart(productName, productPrice) {
-		var addToCartConfirmed = window.confirm('Are you sure you want to add this item to the cart?');
+		var isLoggedIn = <?php echo json_encode(isset($_SESSION['email'])); ?>;
 
-		if (addToCartConfirmed) {
-			// Create a new XMLHttpRequest object
-			var xhr = new XMLHttpRequest();
+		if (isLoggedIn) {
+			var addToCartConfirmed = window.confirm('Are you sure you want to add this item to the cart?');
+			if (addToCartConfirmed) {
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'addToCart.php', true);
 
-			// Configure it: POST-request for the addToCart.php file
-			xhr.open('POST', 'addToCart.php', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-			// Set the request header
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						alert('Item added to cart successfully.');
+					}
+				};
 
-			// Define what happens on successful data submission
-			xhr.onload = function() {
-				if (xhr.status === 200) {
-					// Do something on success (optional)
-					console.log('Item added to cart successfully.');
-				}
-			};
+				xhr.onerror = function() {
+					console.error('Error while adding item to cart.');
+				};
 
-			// Define what happens in case of an error
-			xhr.onerror = function() {
-				console.error('Error while adding item to cart.');
-			};
-
-			// Prepare the data to send to the server
-			var data = 'productName=' + encodeURIComponent(productName) + '&productPrice=' + encodeURIComponent(productPrice);
-
-			// Send the request
-			xhr.send(data);
+				var data = 'productName=' + encodeURIComponent(productName) + '&productPrice=' + encodeURIComponent(productPrice);
+				xhr.send(data);
+			}
+		} else {
+			alert('Please log in before adding items to the cart.');
+			window.location.href = 'login.php';
 		}
 	}
 </script>
