@@ -86,12 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									</svg>
 								</div> <!-- /.icon -->
 								<div class="service-contents">
-									<p>43 Raymouth Rd. Baltemoer, London 3910</p>
+									<p>Mid City Mall, Core Vision Company, Rehmanabad, Rawalpindi</p>
 								</div> <!-- /.service-contents-->
 							</div> <!-- /.service -->
 						</div>
 
-						<div class="col-lg-4">
+						<div class="col-lg-5">
 							<div class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
 								<div class="service-icon color-1 mb-4">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
@@ -99,12 +99,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									</svg>
 								</div> <!-- /.icon -->
 								<div class="service-contents">
-									<p>info@yourdomain.com</p>
+									<p>alihaiderawan1245@gmail.com</p>
 								</div> <!-- /.service-contents-->
 							</div> <!-- /.service -->
 						</div>
 
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<div class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
 								<div class="service-icon color-1 mb-4">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
