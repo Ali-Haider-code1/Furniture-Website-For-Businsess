@@ -45,6 +45,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<?php
+$hardcodedAdminUsername = "admin@gmail.com";
+$hardcodedAdminPassword = "admin";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $enteredUsername = $_POST["email"];
+    $enteredPassword = $_POST["password"];
+
+    if ($enteredUsername == $hardcodedAdminUsername && $enteredPassword == $hardcodedAdminPassword) {
+        $_SESSION["admin"] = true;
+
+        header("Location: index.php");
+        exit();
+    } else {
+        $error_message = "Invalid username or password";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,6 +109,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .login a:hover {
         cursor: pointer;
     }
+
+    .admin button {
+        border: 1px solid grey;
+        padding:7px 20px;
+        border-radius: 10px;
+    }
+    
 </style>
 
 <body>
@@ -114,13 +139,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="password" id="form3Example4" class="form-control" name="password" required />
                             </div>
 
-                            <!-- Submit button for login -->
                             <div class="d-flex justify-content-between align-items-center login">
                                 <button type="submit" class="btn btn-primary btn-block">
                                     Login
                                 </button>
                                 <a class="mt-2 fw-bold" href="signup.php">Don't Have An Account? Create One</a>
                             </div>
+
+                            <div class="d-block m-auto admin mt-3">
+                            <button class="mt-2 text-center fw-bold" type="submit">Login as Admin</button>
+                            </div>
+
                         </form>
 
                     </div>
@@ -130,5 +159,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </section>
     <!-- Section: Design Block -->
 </body>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/custom.js"></script>
 
 </html>

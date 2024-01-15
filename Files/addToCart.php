@@ -15,8 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userId = $row['id'];
                 $productName = $_POST['productName'];
                 $productPrice = $_POST['productPrice'];
+                $productImage = $_POST['productImage'];
 
-                $insertQuery = "INSERT INTO cart (user_id, name, price) VALUES ('$userId', '$productName', '$productPrice')";
+                $insertQuery = "INSERT INTO cart (user_id, name, price,product_image) VALUES ('$userId', '$productName', '$productPrice','$productImage')";
 
                 if (mysqli_query($con, $insertQuery)) {
                     echo '<script>window.location.href = "cart.php";</script>';

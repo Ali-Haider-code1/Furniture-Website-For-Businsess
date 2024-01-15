@@ -88,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         color: #3b5d50;
 
     }
+
     .signup a:hover {
         cursor: pointer;
 
@@ -151,6 +152,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </section>
     <!-- Section: Design Block -->
 
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/tiny-slider.js"></script>
+    <script src="../js/custom.js"></script>
 </body>
 
 </html>

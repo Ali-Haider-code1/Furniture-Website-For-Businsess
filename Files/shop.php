@@ -1,19 +1,7 @@
-<<<<<<< HEAD
-<?php include_once("header.php")    ?>
-=======
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
-
-
-<?php include_once("header.php");
-session_start();
+<?php
+// session_start();
+include_once("header.php");
 ?>
->>>>>>> f9bbc5ba194014894baf7896a6b2b5fc176f6e2c
 <!-- Start Hero Section -->
 <div class="hero">
 	<div class="container">
@@ -38,117 +26,30 @@ session_start();
 		<div class="row">
 
 			<!-- Start Column 1 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
-					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Nordic Chair</h3>
-					<strong class="product-price">$50.00</strong>
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
+			<?php
+			include('db.php');
 
-			<!-- End Column 1 -->
+			$sql = "SELECT * FROM products";
+			$result = mysqli_query($con, $sql);
 
-			<!-- Start Column 2 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
-					<img src="../images/product-1.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Nordic Chair</h3>
-					<strong class="product-price">$50.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 2 -->
-
-			<!-- Start Column 3 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Kruzo Aero Chair', 78.00)">
-					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Kruzo Aero Chair</h3>
-					<strong class="product-price">$78.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 3 -->
-
-			<!-- Start Column 4 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Ergonomic Chair', 43.00)">
-					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Ergonomic Chair</h3>
-					<strong class="product-price">$43.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 4 -->
-
-
-			<!-- Start Column 1 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Nordic Chair', 50.00)">
-					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Nordic Chair</h3>
-					<strong class="product-price">$50.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 1 -->
-
-			<!-- Start Column 2 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);">
-					<img src="../images/product-1.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Nordic Chair</h3>
-					<strong class="product-price">$50.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 2 -->
-
-			<!-- Start Column 3 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Kruzo Aero Chair', 78.00)">
-					<img src="../images/product-2.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Kruzo Aero Chair</h3>
-					<strong class="product-price">$78.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 3 -->
-
-			<!-- Start Column 4 -->
-			<div class="col-12 col-md-4 col-lg-3 mb-5">
-				<a class="product-item" href="javascript:void(0);" onclick="addToCart('Ergonomic Chair', 43.00)">
-					<img src="../images/product-3.png" class="img-fluid product-thumbnail">
-					<h3 class="product-title">Ergonomic Chair</h3>
-					<strong class="product-price">$43.00</strong>
-
-					<span class="icon-cross">
-						<img src="../images/cross.svg" class="img-fluid">
-					</span>
-				</a>
-			</div>
-			<!-- End Column 4 -->
+			if ($result) {
+				while ($row = mysqli_fetch_assoc($result)) {
+					echo '<div class="col-12 col-md-4 col-lg-3 mb-5">';
+					echo '<a class="product-item" href="javascript:void(0);" onclick="addToCart(\'' . $row['p_name'] . '\', ' . $row['p_price'] . ',\'' . $row['p_img'] . '\')">';
+					echo '<img src="'.$row['p_img'].'" class="img-fluid product-thumbnail">';
+					echo '<h3 class="product-title">' . $row['p_name'] . '</h3>';
+					echo '<strong class="product-price">£' . $row['p_price'] . '</strong>';
+					echo '<span class="icon-cross">';
+					echo '<img src="../images/cross.svg" class="img-fluid">';
+					echo '</span>';
+					echo '</a>';
+					echo '</div>';
+				}
+			} else {
+				echo "Error: " . mysqli_error($con);
+			}
+			mysqli_close($con);
+			?>
 
 		</div>
 	</div>
@@ -263,13 +164,14 @@ session_start();
 <!-- End Footer Section -->
 
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/custom.js"></script>
 </body>
 
 <script>
-	function addToCart(productName, productPrice) {
+	function addToCart(productName, productPrice,productImage) {
 		var isLoggedIn = <?php echo json_encode(isset($_SESSION['email'])); ?>;
 
 		if (isLoggedIn) {
@@ -290,7 +192,7 @@ session_start();
 					console.error('Error while adding item to cart.');
 				};
 
-				var data = 'productName=' + encodeURIComponent(productName) + '&productPrice=' + encodeURIComponent(productPrice);
+				var data = 'productName=' + encodeURIComponent(productName) + '&productPrice=' + encodeURIComponent(productPrice)+'&productImage='+encodeURIComponent(productImage);
 				xhr.send(data);
 			}
 		} else {

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -12,6 +15,10 @@
 
 	<!-- Bootstrap CSS -->
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" integrity="sha384-rbs5HvlKdE8Xem93mCpIUnTC1j9beAIs5rD/R8S/Eu8GP5U02S3tBcOJq5cAOT7o" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-KyZXEAg3QhqLMpG8r+Knujsl5+z0FfM5sVoRfWkNfEXcy0c5z5P2U2nU6mzqL+YX6NvOxPfks1nQ7GKN6Uw65g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 	<link href="../css/tiny-slider.css" rel="stylesheet">
 	<link href="../css/style.css" rel="stylesheet">
@@ -40,6 +47,13 @@
 					<li><a class="nav-link" href="services.php">Services</a></li>
 					<li><a class="nav-link" href="blog.php">Blog</a></li>
 					<li><a class="nav-link" href="contact.php">Contact us</a></li>
+					<li><a class="nav-link" href="FAQ.php">FAQ</a></li>
+					<?php
+					if (isset($_SESSION['admin']) && $_SESSION['admin']) {
+						echo '<li><a class="nav-link" href="addNewProduct.php">Add</a></li>';
+						echo '<li><a class="nav-link" href="DeleteProduct.php">Delete </a></li>';
+					}
+					?>
 				</ul>
 
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -49,10 +63,13 @@
 						</a>
 					</li>
 					<li>
-						<a class="nav-link" href="cart.php" data-toggle="tooltip" data-placement="bottom" title="Cart">
+						<a class="nav-link" href="cart.php" data-toggle="tooltip" data-placement="bottom" title="Cart" data-tooltip="Cart (0)">
 							<img src="../images/cart.svg" alt="Cart Icon">
 						</a>
 					</li>
+					<li><a class="nav-link text-white py-2 px-2" href="logout.php" data-toggle="tooltip" data-placement="bottom" title="Logout">Logout</a></li>
+
+
 				</ul>
 			</div>
 		</div>
@@ -63,3 +80,6 @@
 			$('[data-toggle="tooltip"]').tooltip();
 		});
 	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-yVlq5qBfBf0ZqF+A8dNCn6s5Tf1CTV6Sbxl1DE1V/Cs0Em/kRFHzR5CgM62AVDn" crossorigin="anonymous"></script>

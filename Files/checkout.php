@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-<?php include_once("header.php")    ?>
-		<!-- Start Hero Section -->
-			<div class="hero">
-				<div class="container">
-					<div class="row justify-content-between">
-						<div class="col-lg-5">
-							<div class="intro-excerpt">
-								<h1>Checkout</h1>
-							</div>
-						</div>
-						<div class="col-lg-7">
-							
-						</div>
-					</div>
-=======
 <!-- /*
 * Bootstrap 5
 * Template Name: Furni
@@ -26,7 +10,7 @@
 <?php include_once("header.php");
 ?>
 <?php
-session_start();
+// session_start();
 require_once("db.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -95,6 +79,43 @@ function validateInput($input)
 }
 ?>
 
+<style>
+	.popup-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.7);
+		z-index: 1;
+	}
+
+	.popup {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #fff;
+		padding: 20px;
+		border-radius: 5px;
+		text-align: center;
+		z-index: 2;
+	}
+
+	.popup-content {
+		position: relative;
+	}
+
+	.close {
+		position: absolute;
+		right: -15px;
+		top: -15px;
+		font-size: 25px;
+		cursor: pointer;
+		color: black;
+	}
+</style>
 <!-- Start Hero Section -->
 <div class="hero">
 	<div class="container">
@@ -102,7 +123,6 @@ function validateInput($input)
 			<div class="col-lg-5">
 				<div class="intro-excerpt">
 					<h1>Checkout</h1>
->>>>>>> f9bbc5ba194014894baf7896a6b2b5fc176f6e2c
 				</div>
 			</div>
 			<div class="col-lg-7">
@@ -334,18 +354,18 @@ function validateInput($input)
 
 															echo '<tr>';
 															echo '<td>' . $productName . ' <strong class="mx-2">x</strong> ' . $quantity . '</td>';
-															echo '<td>$' . number_format($price, 2) . '</td>';
+															echo '<td>£' . number_format($price, 2) . '</td>';
 															echo '</tr>';
 														}
 
 														echo '<tr>';
 														echo '<td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>';
-														echo '<td class="text-black">$' . number_format($subtotal, 2) . '</td>';
+														echo '<td class="text-black">£' . number_format($subtotal, 2) . '</td>';
 														echo '</tr>';
 
 														echo '<tr>';
 														echo '<td class="text-black font-weight-bold"><strong>Order Total</strong></td>';
-														echo '<td class="text-black font-weight-bold"><strong>$' . number_format($subtotal, 2) . '</strong></td>';
+														echo '<td class="text-black font-weight-bold"><strong>£' . number_format($subtotal, 2) . '</strong></td>';
 														echo '</tr>';
 
 														echo '</tbody>';
@@ -366,9 +386,18 @@ function validateInput($input)
 										</tbody>
 								</table>
 								<div class="form-group">
-									<button id="placeOrderBtn" class="btn btn-primary" onclick="placeOrder()">Place Order</button>
+									<button id="placeOrderBtn" class="btn btn-primary">Place Order</button>
 								</div>
 
+								<div class="popup-overlay" id="popupOverlay">
+									<div class="popup" id="popup">
+										<div class="popup-content">
+											<span class="close" id="closeBtn">&times;</span>
+											<h3>Thank You!</h3>
+											<p>Your order has been placed successfully!</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -488,37 +517,48 @@ function validateInput($input)
 <!-- End Footer Section -->
 
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/custom.js"></script>
 </body>
 <script>
-	function placeOrder() {
-		var formData = $('#orderForm').serialize();
-		$.ajax({
-			type: 'POST',
-			url: 'place_order.php',
-			data: formData,
-			dataType: 'json',
-			success: function(response) {
-				if (response.success) {
-					alert(response.message);
-					window.location.href = 'thankyou.php';
-				} else {
-					alert('Error: ' + response.message);
-				}
-			},
-			error: function(xhr, status, error) {
-				alert('Error: ' + error);
-			}
-		});
-	}
-
-	$(document).ready(function() {
-		$('#placeOrderBtn').on('click', function() {
-			placeOrder();
-		});
+	document.getElementById('placeOrderBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		document.getElementById('popupOverlay').style.display = 'block';
+		document.body.style.overflow = 'hidden'; // Prevent scrolling
 	});
+
+	document.getElementById('closeBtn').addEventListener('click', function() {
+		document.getElementById('popupOverlay').style.display = 'none';
+		document.body.style.overflow = 'auto'; // Enable scrolling
+	});
+
+	// function placeOrder() {
+	// 	var formData = $('#orderForm').serialize();
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: 'place_order.php',
+	// 		data: formData,
+	// 		dataType: 'json',
+	// 		success: function(response) {
+	// 			if (response.success) {
+	// 				alert(response.message);
+	// 				window.location.href = 'thankyou.php';
+	// 			} else {
+	// 				alert('Error: ' + response.message);
+	// 			}
+	// 		},
+	// 		error: function(xhr, status, error) {
+	// 			alert('Error: ' + error);
+	// 		}
+	// 	});
+	// }
+
+	// $(document).ready(function() {
+	// 	$('#placeOrderBtn').on('click', function() {
+	// 		placeOrder();
+	// 	});
+	// });
 </script>
 
 </html>

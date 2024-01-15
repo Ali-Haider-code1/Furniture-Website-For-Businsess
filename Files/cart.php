@@ -40,7 +40,7 @@
             </thead>
             <tbody>
               <?php
-              session_start();
+              // session_start();
               require_once("db.php");
 
               if (isset($_SESSION['email'])) {
@@ -55,13 +55,13 @@
                     $userId = $row['id'];
 
                     // Retrieve aggregated cart items for the logged-in user
-                    $selectCartItemsQuery = "SELECT name, SUM(quantity) as totalQuantity, price, SUM(price * quantity) as totalPrice FROM cart WHERE user_id = '$userId' GROUP BY name";
+                    $selectCartItemsQuery = "SELECT name,product_image, SUM(quantity) as totalQuantity, price, SUM(price * quantity) as totalPrice FROM cart WHERE user_id = '$userId' GROUP BY name";
                     $cartItemsResult = mysqli_query($con, $selectCartItemsQuery);
 
                     if ($cartItemsResult) {
                       while ($cartItem = mysqli_fetch_assoc($cartItemsResult)) {
                         echo '<tr>';
-                        echo '<td class="product-thumbnail"><img src="../images/product-1.png" alt="Image" class="img-fluid"></td>';
+                        echo '<td class="product-thumbnail"><img src="'.$cartItem['product_image'].'" alt="Image" class="img-fluid"></td>';
                         echo '<td class="product-name"><h2 class="h5 text-black">' . $cartItem['name'] . '</h2></td>';
                         echo '<td>$' . $cartItem['price'] . '</td>';
                         echo '<td>';
@@ -71,7 +71,7 @@
                         echo '<div class="input-group-append"><button class="btn btn-outline-black increase" type="button" onclick="increaseQuantity(\'' . $cartItem['name'] . '\')"></button></div>';
                         echo '</div>';
                         echo '</td>';
-                        echo '<td>$' . $cartItem['totalPrice'] . '</td>';
+                        echo '<td>£' . $cartItem['totalPrice'] . '</td>';
                         echo '<td><a href="#" class="btn btn-black btn-sm" onclick="removeItem(\'' . $cartItem['name'] . '\')">X</a></td>';
                         echo '</tr>';
                       }
@@ -143,7 +143,7 @@
                     echo '<span class="text-black">Subtotal</span>';
                     echo '</div>';
                     echo '<div class="col-md-6 text-right">';
-                    echo '<strong class="text-black">$' . number_format($subtotal, 2) . '</strong>';
+                    echo '<strong class="text-black">£' . number_format($subtotal, 2) . '</strong>';
                     echo '</div>';
                     echo '</div>';
 
@@ -152,7 +152,7 @@
                     echo '<span class="text-black">Total</span>';
                     echo '</div>';
                     echo '<div class="col-md-6 text-right">';
-                    echo '<strong class="text-black">$' . number_format($total, 2) . '</strong>';
+                    echo '<strong class="text-black">£' . number_format($total, 2) . '</strong>';
                     echo '</div>';
                     echo '</div>';
                   } else {
@@ -292,9 +292,9 @@
 <!-- End Footer Section -->
 
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/custom.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/custom.js"></script>
 </body>
 
 <!-- Include jQuery -->
